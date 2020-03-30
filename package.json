@@ -1,0 +1,38 @@
+{
+  "private": true,
+  "name": "basic-electron-hid",
+  "version": "1.0.0",
+  "description": "A minimal Electron application",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "postinstall": "electron-rebuild"
+  },
+  "repository": "https://github.com/electron/electron-quick-start",
+  "keywords": [
+    "Electron",
+    "quick",
+    "start",
+    "tutorial",
+    "demo"
+  ],
+  "author": "GitHub",
+  "license": "CC0-1.0",
+  "devDependencies": {
+    "electron": "^7.1.4",
+    "electron-builder": "^21.2.0",
+    "electron-devtools-installer": "^2.2.4",
+    "electron-notarize": "^0.2.1",
+    "electron-rebuild": "^1.8.4"
+  },
+  "dependencies": {
+    "@ledgerhq/hw-transport-node-hid": "^4.78.0",
+    "babel-polyfill": "^6.26.0",
+    "ledger-liquid-lib": "file:.\\ledger-liquid-lib"
+  },
+  "cmake-js": {
+    "runtime": "electron",
+    "runtimeVersion": "7.1.4",
+    "arch": "x64"
+  }
+}
