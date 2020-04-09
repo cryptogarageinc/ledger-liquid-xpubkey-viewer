@@ -20,15 +20,12 @@
   "license": "CC0-1.0",
   "devDependencies": {
     "electron": "^7.1.4",
-    "electron-builder": "^21.2.0",
-    "electron-devtools-installer": "^2.2.4",
-    "electron-notarize": "^0.2.1",
-    "electron-rebuild": "^1.8.4"
+    "electron-rebuild": "^1.10.1"
   },
   "dependencies": {
-    "@ledgerhq/hw-transport-node-hid": "^4.78.0",
+    "@ledgerhq/hw-transport-node-hid": "^5.11.0",
     "babel-polyfill": "^6.26.0",
-    "ledger-liquid-lib": "file:.\\ledger-liquid-lib"
+    "ledger-liquid-lib": "git+https://github.com/cryptogarageinc/ledger-liquid-lib.git#v0.0.4"
   },
   "cmake-js": {
     "runtime": "electron",

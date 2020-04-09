@@ -5,26 +5,37 @@ const LedgerLib = require("ledger-liquid-lib");
 
 const { app, BrowserWindow, ipcMain } = require("electron");
 
+const liquidLib = new LedgerLib.LedgerLiquidWrapper('liquidv1');
+
 // This a very basic example
 // Ideally you should not run this code in main thread
 // but run it in a dedicated node.js process
-function getBitcoinInfo(verify) {
-  return TransportNodeHid.open("")
-    .then(transport => {
-      transport.setDebugMode(true);
-      const liquidLib = new LedgerLib(transport, 'liquidv1');
-      return liquidLib.getWalletPublicKey("44'/0'/0'/0/0").then(r =>
-        transport
-          .close()
-          .catch(e => {console.warn(e)})
-          .then(() => {console.log(r); return r; })
+function getLedgerInfo(path) {
+  console.log('getLedgerInfo call. path:', path);
+  return liquidLib.connect(1, '')
+    .then(status => {
+      if (status.success) {
+        return liquidLib.getXpubKey(path).then(result => {
+            if (result.success) {
+              return result;
+            }
+            console.log('getXpubKey fail. ', result);
+            return new Promise(s => setTimeout(s, 100)).then(() =>
+              getLedgerInfo(path)
+            );
+          }
+        );
+      }
+      console.log('connect fail. ', status);
+      return new Promise(s => setTimeout(s, 100)).then(() =>
+        getLedgerInfo(path)
       );
     })
     .catch(e => {
       console.warn(e);
       // try again until success!
-      return new Promise(s => setTimeout(s, 1000)).then(() =>
-        getBitcoinInfo(verify)
+      return new Promise(s => setTimeout(s, 100)).then(() =>
+        getLedgerInfo(path)
       );
     });
 }
@@ -38,7 +49,7 @@ function createWindow() {
   mainWindow = new BrowserWindow({
      webPreferences: {
       nodeIntegration: true
-    }, width: 800, height: 600 });
+    }, width: 600, height: 400 });
 
   // and load the index.html of the app.
   mainWindow.loadFile("index.html");
@@ -56,14 +67,10 @@ function createWindow() {
 
   // ~~~ BASIC LEDGER EXAMPLE ~~~
 
-  ipcMain.on("requestBitcoinInfo", () => {
-    getBitcoinInfo(false).then(result => {
-      mainWindow.webContents.send("bitcoinInfo", result);
+  ipcMain.on("requestLedgerInfo", (event, arg) => {
+    getLedgerInfo(arg).then(result => {
+      mainWindow.webContents.send("ledgerInfo", result);
     });
-  });
-
-  ipcMain.on("verifyBitcoinInfo", () => {
-    getBitcoinInfo(true);
   });
 
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

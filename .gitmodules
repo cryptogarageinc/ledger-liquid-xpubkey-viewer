@@ -1,3 +1,0 @@
-[submodule "ledger-liquid-lib"]
-	path = ledger-liquid-lib
-	url = git@github.com:cryptogarageinc/ledger-liquid-lib.git
