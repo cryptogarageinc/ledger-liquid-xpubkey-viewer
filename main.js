@@ -17,14 +17,17 @@ function getLedgerInfo(path) {
       if (status.success) {
         return liquidLib.getXpubKey(path).then(result => {
             if (result.success) {
+              liquidLib.disconnect();
               return result;
             }
             console.log('getXpubKey fail. ', result);
             return new Promise(s => setTimeout(s, 100)).then(() =>
-              getLedgerInfo(path)
+              liquidLib.disconnect().then(() => getLedgerInfo(path))
             );
           }
-        );
+        ).catch(() => {
+          liquidLib.disconnect();
+        });
       }
       console.log('connect fail. ', status);
       return new Promise(s => setTimeout(s, 100)).then(() =>
