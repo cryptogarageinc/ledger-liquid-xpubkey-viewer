@@ -3,6 +3,8 @@ const LedgerLib = require("ledger-liquid-lib-simple");
 
 const { app, BrowserWindow, ipcMain } = require("electron");
 
+let lastConnectedApp = LedgerLib.ApplicationType.Empty;
+
 // This a very basic example
 // Ideally you should not run this code in main thread
 // but run it in a dedicated node.js process
@@ -13,6 +15,9 @@ function getLedgerInfo() {
     .then(status => {
       if (status.success) {
         return liquidLib.getApplicationInfo().then(result => {
+          if (result.success) {
+            lastConnectedApp = result.name;
+          }
           return result;
         });
       }
@@ -28,7 +33,10 @@ function getLedgerInfo() {
 
 function getXpubkeyInfo(path) {
   console.log(`getXpubkeyInfo call. path:${path}`);
-  const liquidLib = new LedgerLib.LedgerLiquidWrapper('liquidv1');
+  const netType =
+      (lastConnectedApp === LedgerLib.ApplicationType.LiquidHeadless) ?
+          LedgerLib.NetworkType.LiquidV1 : LedgerLib.NetworkType.Regtest;
+  const liquidLib = new LedgerLib.LedgerLiquidWrapper(netType, true);
   return liquidLib.connect(0, '')
     .then(status => {
       if (status.success) {
@@ -51,7 +59,10 @@ function getXpubkeyInfo(path) {
 
 function setAuthorizationKey(key) {
   console.log('setAuthorizationKey call. key:', key);
-  const liquidLib = new LedgerLib.LedgerLiquidWrapper('liquidv1');
+  const netType =
+      (lastConnectedApp === LedgerLib.ApplicationType.LiquidHeadless) ?
+          LedgerLib.NetworkType.LiquidV1 : LedgerLib.NetworkType.Regtest;
+  const liquidLib = new LedgerLib.LedgerLiquidWrapper(netType, true);
   return liquidLib.connect(0, '')
     .then(status => {
       if (status.success) {
