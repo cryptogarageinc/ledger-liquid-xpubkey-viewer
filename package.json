@@ -1,35 +1,20 @@
 {
-  "private": true,
-  "name": "basic-electron-hid",
+  "name": "ledger-liquid-xpubkey-viewer",
   "version": "1.0.0",
-  "description": "A minimal Electron application",
+  "description": "Electron xpubkey viewer application",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
     "postinstall": "electron-rebuild"
   },
-  "repository": "https://github.com/electron/electron-quick-start",
-  "keywords": [
-    "Electron",
-    "quick",
-    "start",
-    "tutorial",
-    "demo"
-  ],
+  "repository": "https://github.com/cryptogarageinc/ledger-liquid-xpubkey-viewer",
   "author": "GitHub",
   "license": "CC0-1.0",
   "devDependencies": {
-    "electron": "^7.1.4",
+    "electron": "^7.1.14",
     "electron-rebuild": "^1.10.1"
   },
   "dependencies": {
-    "@ledgerhq/hw-transport-node-hid": "^5.11.0",
-    "babel-polyfill": "^6.26.0",
-    "ledger-liquid-lib": "git+https://github.com/cryptogarageinc/ledger-liquid-lib.git#v0.0.7"
-  },
-  "cmake-js": {
-    "runtime": "electron",
-    "runtimeVersion": "7.1.4",
-    "arch": "x64"
+    "ledger-liquid-lib-simple": "git+https://github.com/cryptogarageinc/ledger-liquid-lib-simple.git#v0.0.3"
   }
 }

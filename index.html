@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <title>Ledger Basic Electron HID</title>
+    <title>Ledger Liquid Library Tool</title>
     <style>
       #main {
         display: flex;
@@ -12,17 +12,68 @@
         height: 100vh;
         font-family: sans-serif;
       }
+      #bip32path {
+        width: 200px;
+      }
+      #xpubkey {
+        width: 500px;
+      }
+      #authPubkey,#authkeyResult,#connectResponse {
+        width: 420px;
+      }
+      #authkey-input {
+        vertical-align: middle;
+        margin: auto;
+      }
+      #requestAuthkey {
+        vertical-align: top;
+        margin-top: 13px;
+      }
       h1 {
         font-size: 32px;
       }
       h2 {
         font-size: 20px;
-        font-weight: normal;
+        font-weight: bold;
+      }
+      h3 {
+        font-size: 16px;
+        margin-bottom: 0px;
+        padding-bottom: 0px;
       }
     </style>
   </head>
   <body>
-    <div id="main"></div>
+    <div class="connect">
+      <h2 id="app-name">ConnectApp: -</h2>
+      <div class="connect-status">
+        <input type="button" id="connect" value="connect" />
+        <input type="text" id="connectResponse" value="disconnect" readonly />
+      </div>
+    </div>
+    <hr>
+    <div class="xpub">
+      <h3 class="xpub-title">xpubkey</h3>
+      <div class="xpub-input">
+        <input type="text" id="bip32path" value="" />
+        <input type="button" id="requestXpubkey" value="generate" />
+      </div>
+      <div class="xpub-output">
+        <textarea rows="2" id="xpubkey" readonly></textarea>
+      </div>
+    </div>
+    <hr>
+    <div class="authkey">
+      <h3 class="authkey-title">set authorization pubkey</h3>
+      <div class="authkey-input">
+        <textarea rows="3" id="authPubkey"></textarea>
+        <input type="button" id="requestAuthkey" value="request" />
+      </div>
+      <div class="authkey-output">
+        <input type="text" id="authkeyResult" value="" readonly />
+      </div>
+    </div>
+
     <script>
       // You can also require other files to run in this process
       require("./renderer.js");

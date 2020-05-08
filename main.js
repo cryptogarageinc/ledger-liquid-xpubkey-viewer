@@ -1,45 +1,76 @@
 // Modules to control application life and create native browser window
-require("babel-polyfill");
-const TransportNodeHid = require("@ledgerhq/hw-transport-node-hid").default;
-const LedgerLib = require("ledger-liquid-lib");
+const LedgerLib = require("ledger-liquid-lib-simple");
 
 const { app, BrowserWindow, ipcMain } = require("electron");
-
-const liquidLib = new LedgerLib.LedgerLiquidWrapper('liquidv1');
 
 // This a very basic example
 // Ideally you should not run this code in main thread
 // but run it in a dedicated node.js process
-function getLedgerInfo(path) {
-  console.log('getLedgerInfo call. path:', path);
-  return liquidLib.connect(1, '')
+function getLedgerInfo() {
+  console.log('getLedgerInfo call.');
+  const liquidLib = new LedgerLib.LedgerLiquidWrapper('liquidv1');
+  return liquidLib.connect(10, '')
     .then(status => {
       if (status.success) {
-        return liquidLib.getXpubKey(path).then(result => {
-            if (result.success) {
-              liquidLib.disconnect();
-              return result;
-            }
-            console.log('getXpubKey fail. ', result);
-            return new Promise(s => setTimeout(s, 100)).then(() =>
-              liquidLib.disconnect().then(() => getLedgerInfo(path))
-            );
-          }
-        ).catch(() => {
-          liquidLib.disconnect();
+        return liquidLib.getApplicationInfo().then(result => {
+          return result;
         });
       }
       console.log('connect fail. ', status);
-      return new Promise(s => setTimeout(s, 100)).then(() =>
-        getLedgerInfo(path)
+      return status;
+    })
+    .finally(() => {
+      liquidLib.disconnect().then(() =>
+        console.log('getLedgerInfo disconnect.')
       );
+    });
+}
+
+function getXpubkeyInfo(path) {
+  console.log(`getXpubkeyInfo call. path:${path}`);
+  const liquidLib = new LedgerLib.LedgerLiquidWrapper('liquidv1');
+  return liquidLib.connect(0, '')
+    .then(status => {
+      if (status.success) {
+        return liquidLib.getXpubKey(path).then(result => {
+          return result;
+        });
+      }
+      console.log('connect fail. ', status);
+      return status;
     })
     .catch(e => {
       console.warn(e);
-      // try again until success!
-      return new Promise(s => setTimeout(s, 100)).then(() =>
-        getLedgerInfo(path)
-      );
+    })
+    .finally((result) => {
+      return liquidLib.disconnect().then(() => {
+        console.log('getXpubkeyInfo disconnect.')
+        return result;
+      });
+    });
+}
+
+function setAuthorizationKey(key) {
+  console.log('setAuthorizationKey call. key:', key);
+  const liquidLib = new LedgerLib.LedgerLiquidWrapper('liquidv1');
+  return liquidLib.connect(0, '')
+    .then(status => {
+      if (status.success) {
+        return liquidLib.setupHeadlessAuthorization(key).then(result => {
+          return result;
+        });
+      }
+      console.log('connect fail. ', status);
+      return status;
+    })
+    .catch(e => {
+      console.warn(e);
+    })
+    .finally((result) => {
+      return liquidLib.disconnect().then(() => {
+        console.log('setAuthorizationKey disconnect.')
+        return result;
+      });
     });
 }
 
@@ -70,9 +101,27 @@ function createWindow() {
 
   // ~~~ BASIC LEDGER EXAMPLE ~~~
 
-  ipcMain.on("requestLedgerInfo", (event, arg) => {
-    getLedgerInfo(arg).then(result => {
+  ipcMain.on("requestLedgerInfo", (event) => {
+    getLedgerInfo().then(result => {
+      console.log('ledgerInfo');
+      console.log(result);
       mainWindow.webContents.send("ledgerInfo", result);
+    });
+  });
+
+  ipcMain.on("requestLedgerXpubkey", (event, arg) => {
+    getXpubkeyInfo(arg).then(result => {
+      console.log('ledgerXpubkey');
+      console.log(result);
+      mainWindow.webContents.send("ledgerXpubkey", result);
+    });
+  });
+
+  ipcMain.on("setupAuthorizationKey", (event, arg) => {
+    setAuthorizationKey(arg).then(result => {
+      console.log('setupAuthorizationKeyResponse');
+      console.log(result);
+      mainWindow.webContents.send("setupAuthorizationKeyResponse", result);
     });
   });
 
