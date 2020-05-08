@@ -20,9 +20,9 @@ function getLedgerInfo() {
       return status;
     })
     .finally(() => {
-      liquidLib.disconnect().then(() =>
+      return liquidLib.disconnect().then(() => {
         console.log('getLedgerInfo disconnect.')
-      );
+      });
     });
 }
 
@@ -42,10 +42,9 @@ function getXpubkeyInfo(path) {
     .catch(e => {
       console.warn(e);
     })
-    .finally((result) => {
+    .finally(() => {
       return liquidLib.disconnect().then(() => {
         console.log('getXpubkeyInfo disconnect.')
-        return result;
       });
     });
 }
@@ -66,10 +65,9 @@ function setAuthorizationKey(key) {
     .catch(e => {
       console.warn(e);
     })
-    .finally((result) => {
+    .finally(() => {
       return liquidLib.disconnect().then(() => {
         console.log('setAuthorizationKey disconnect.')
-        return result;
       });
     });
 }
