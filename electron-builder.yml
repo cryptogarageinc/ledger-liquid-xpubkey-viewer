@@ -1,0 +1,51 @@
+appId: io.settlenet.xpubviewer
+productName: XpubViewer
+copyright: "Copyright © 2020 Crypto Garage, Inc. All Rights Reserved."
+
+directories:
+  output: dist
+  buildResources: assets
+
+files:
+  - filter:
+      - ./main.js
+      - ./renderer.js
+      - ./index.html
+
+extraMetadata:
+  main: main.js
+
+compression: normal
+
+afterSign: "dev_script/package/notarize/notarize.js"
+
+mac:
+  target:
+    - zip
+    - dmg
+  hardenedRuntime: true
+  gatekeeperAssess: false
+  entitlements: "dev_script/package/notarize/entitlements.mac.plist"
+  entitlementsInherit: "dev_script/package/notarize/entitlements.mac.plist"
+  publish:
+    provider: "github"
+    repo: "ledger-liquid-xpubkey-viewer"
+    owner: "cryptogarageinc"
+    token: "0808a43d346ca57511839e2cc4f565c34d38b7c4"
+    private: true
+
+win:
+  target:
+    - nsis
+  publish:
+    provider: "github"
+    repo: "ledger-liquid-xpubkey-viewer"
+    owner: "cryptogarageinc"
+    token: "0808a43d346ca57511839e2cc4f565c34d38b7c4"
+    private: true
+
+nsis:
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+
+extends: null
