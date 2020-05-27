@@ -4,7 +4,18 @@ const testingAuthPubkey = '04b85b0e5f5b41f1a95bbf9a83edd95c741223c6d9dc5fe607de1
 const appNameTitle = 'ConnectApp';
 
 function changeDisable(disabled, connectDisabled = undefined) {
-  const fieldNames = ['xpubkey', 'requestXpubkey', 'bip32path', 'authPubkey', 'requestAuthkey', 'authkeyResult', 'connect'];
+  const fieldNames = [
+    'lbtcXpubkey',
+    'jpysXpubkey',
+    'requestLbtcXpubkey',
+    'requestJpysXpubkey',
+    'lbtcBip32path',
+    'jpysBip32path',
+    'authPubkey',
+    'requestAuthkey',
+    'authkeyResult',
+    'connect',
+  ];
   for (const name of fieldNames) {
     const field = document.getElementById(name);
     if (name === 'connect') {
@@ -30,9 +41,9 @@ function checkDisconnect(arg) {
   }
 }
 
-function getXpubkey(){
-  const bip32path = document.getElementById('bip32path');
-  const xpubkeyField = document.getElementById("xpubkey");
+function getXpubkey(asset){
+  const bip32path = document.getElementById(asset + 'Bip32path');
+  const xpubkeyField = document.getElementById(asset + 'Xpubkey');
   if (bip32path.value.length === 0) {
     return;
   }
@@ -64,7 +75,7 @@ function getXpubkey(){
     return;
   }
   changeDisable(true);
-  ipcRenderer.send('requestLedgerXpubkey', bip32path.value);
+  ipcRenderer.send('requestLedgerXpubkey', bip32path.value, asset);
 }
 
 function setAuthKey(){
@@ -96,8 +107,8 @@ ipcRenderer.on("ledgerInfo", (event, arg) => {
   }
 });
 
-ipcRenderer.on("ledgerXpubkey", (event, arg) => {
-  const xpubkeyField = document.getElementById("xpubkey");
+ipcRenderer.on("ledgerXpubkey", (event, arg, asset) => {
+  const xpubkeyField = document.getElementById(asset + "Xpubkey");
   if (arg.success) {
     xpubkeyField.value = arg.xpubKey;
     changeDisable(false, true);
@@ -127,8 +138,11 @@ document.getElementById('connect').addEventListener('click', () => {
   ipcRenderer.send('requestLedgerInfo');
 });
 
-document.getElementById('requestXpubkey').addEventListener('click', () => {
-  getXpubkey();
+document.getElementById('requestLbtcXpubkey').addEventListener('click', () => {
+  getXpubkey('lbtc');
+});
+document.getElementById('requestJpysXpubkey').addEventListener('click', () => {
+  getXpubkey('jpys');
 });
 
 document.getElementById('requestAuthkey').addEventListener('click', () => {
