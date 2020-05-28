@@ -125,11 +125,11 @@ function createWindow() {
     });
   });
 
-  ipcMain.on("requestLedgerXpubkey", (event, arg) => {
-    getXpubkeyInfo(arg).then(result => {
+  ipcMain.on("requestLedgerXpubkey", (event, path, asset) => {
+    getXpubkeyInfo(path).then(result => {
       console.log('ledgerXpubkey');
       console.log(result);
-      mainWindow.webContents.send("ledgerXpubkey", result);
+      mainWindow.webContents.send("ledgerXpubkey", result, asset);
     });
   });
 
