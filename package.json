@@ -7,6 +7,7 @@
     "start": "electron .",
     "postinstall": "electron-builder install-app-deps",
     "electron_build": "node ./dev_script/build.js",
+    "release": "node ./dev_script/build.js",
     "appVersion": "node ./dev_script/appVersion.js"
   },
   "repository": "https://github.com/cryptogarageinc/ledger-liquid-xpubkey-viewer",
