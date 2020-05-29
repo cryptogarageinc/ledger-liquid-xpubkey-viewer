@@ -42,8 +42,7 @@ jobs:
     # 環境情報： https://github.com/actions/virtual-environments/blob/master/images/macos/macos-10.15-Readme.md
     runs-on: macos-latest
     env:
-      PROJECT_UPDATE_REPONAME: settlenet-update-demo
-      GITHUB_TOKEN: ${{ secrets.GITHUB_OTHER_REPOS_ACCESS_TOKEN }}
+      GH_TOKEN: ${{ secrets.GH_TOKEN }}
       CSC_LINK: ${{ secrets.CSC_LINK }}
       CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD }}
       APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
@@ -94,7 +93,7 @@ jobs:
     # 環境情報： https://github.com/actions/virtual-environments/blob/master/images/win/Windows2019-Readme.md
     runs-on: windows-latest
     env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_OTHER_REPOS_ACCESS_TOKEN }}
+      GH_TOKEN: ${{ secrets.GH_TOKEN }}
       NODE_VERSION: 12.8.1
     steps:
       - uses: actions/checkout@v2
