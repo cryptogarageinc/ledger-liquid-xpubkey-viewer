@@ -7,35 +7,21 @@ on:
 
 # 環境変数の説明
 
-# ■ 環境ごとに異なる値が設定される変数
-#  TARGET_ENV:
-#    descripiton: "パッケージング対象となる環境"
-#  PROJECT_UPDATE_REPONAME:
-#    descripiton: "自動アップデートの接続先"
-
 #  ■ GitHub secretsへ設定されている値
-#  GITHUB_TOKEN:
-#    description: "他リポジトリに対してのpush権限を持ったgithub token"
-#  CSC_LINK: ${{ inputs.CSC_LINK }}
+#  GH_TOKEN:
+#    description: "本リポジトリに対してのpush権限を持ったgithub token(cg-circleci)"
+#  CSC_LINK: ${{ secrets.CSC_LINK }}
 #    description: "署名用のp12ファイル情報"
-#  CSC_KEY_PASSWORD: ${{ inputs.CSC_KEY_PASSWORD }}
+#  CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD }}
 #    description: "署名用のp12ファイルのパスワード"
-#  APPLE_APP_SPECIFIC_PASSWORD: ${{ inputs.APPLE_APP_SPECIFIC_PASSWORD }}
+#  APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
 #    description: "apple id サインイン用のパスワード"
-#  APPLE_ID: ${{ inputs.APPLE_ID }}
+#  APPLE_ID: ${{ secrets.APPLE_ID }}
 #    description: "署名に利用するapple id"
-#  ZIP_PASSWORD: ${{ inputs.ZIP_PASSWORD }}
-#    description: "zip化の際に指定するパスワード 空の場合はzip化しない"
 
 #  ■ 定数
 #  NODE_VERSION:
 #    description: "パッケージング時のnodeバージョン"
-#  PROJECT_USER_NAME:
-#    description: "githubのorganizationの値"
-#    default: "cryptogarageinc"
-#  PROJECT_REPONAME:
-#    description: "traderappのリポジトリ名"
-#    default: "settlenetio-traderapp"
 
 jobs:
   build-on-mac:
@@ -54,17 +40,6 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ env.NODE_VERSION }}
-      # - name: Set bash env
-      #   run: |
-      #     echo "::add-path::$HOME/.nodebrew/current/bin"
-      #     echo "::add-path::/usr/local/var/nodebrew"
-      # - name: Install SSH key
-      #   uses: shimataro/ssh-key-action@v1
-      #   with:
-      #     private-key: ${{ secrets.GITHUB_OTHER_REPOS_ID_RSA }}
-      #     public-key: ${{ secrets.GITHUB_OTHER_REPOS_ID_RSA_PUB }}
-      #     name: id_rsa
-      #     known-hosts: ${{ secrets.GITHUB_OTHER_REPOS_KNOWN_HOSTS }}
       - name: Cache node modules
         uses: actions/cache@v1
         env:
@@ -74,19 +49,11 @@ jobs:
           key: ${{ runner.os }}-${{ env.cache-name }}-${{ hashFiles('yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}--${{ env.cache-name }}-
-      # - name: Install tools
-      #   run: |
-      #     brew update
-      #     brew install nodebrew ghr
-      #     brew cleanup
       - name: Install node modules
         run: yarn
       - name: pull git tag
         run: git pull --tags
       - name: Package app
-        # env:
-        #   TARGET_ENV: ${{ env.TARGET_ENV }}
-        #   GITHUB_PRIV_KEY: ${{ secrets.GITHUB_OTHER_REPOS_ID_RSA }}
         run: yarn release
 
   build-on-win:
@@ -104,13 +71,6 @@ jobs:
       - name: Set bash env
         run: |
           echo "::add-path::/c/Program Files/Git/mingw64/libexec/git-core"
-      # - name: Install SSH key
-      #   uses: shimataro/ssh-key-action@v1
-      #   with:
-      #     private-key: ${{ secrets.GITHUB_OTHER_REPOS_ID_RSA }}
-      #     public-key: ${{ secrets.GITHUB_OTHER_REPOS_ID_RSA_PUB }}
-      #     name: id_rsa
-      #     known-hosts: ${{ secrets.GITHUB_OTHER_REPOS_KNOWN_HOSTS }}
       - name: Cache node modules
         uses: actions/cache@v1
         env:
@@ -127,7 +87,4 @@ jobs:
         run: git pull --tags
       - name: Build app
         shell: bash
-        # env:
-        #   TARGET_ENV: ${{ env.TARGET_ENV }}
-        #   GITHUB_PRIV_KEY: ${{ secrets.GITHUB_OTHER_REPOS_ID_RSA }}
         run: yarn release
