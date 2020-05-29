@@ -29,9 +29,6 @@ mac:
   entitlementsInherit: "dev_script/package/notarize/entitlements.mac.plist"
   publish:
     provider: "github"
-    repo: "ledger-liquid-xpubkey-viewer"
-    owner: "cryptogarageinc"
-    token: "0808a43d346ca57511839e2cc4f565c34d38b7c4"
     private: true
 
 win:
@@ -39,9 +36,6 @@ win:
     - nsis
   publish:
     provider: "github"
-    repo: "ledger-liquid-xpubkey-viewer"
-    owner: "cryptogarageinc"
-    token: "0808a43d346ca57511839e2cc4f565c34d38b7c4"
     private: true
 
 nsis:
