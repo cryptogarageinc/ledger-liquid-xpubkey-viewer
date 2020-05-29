@@ -3,6 +3,9 @@ const LedgerLib = require("ledger-liquid-lib-simple");
 
 const { app, BrowserWindow, ipcMain } = require("electron");
 
+const path = require('path');
+const url = require('url');
+
 let lastConnectedApp = LedgerLib.ApplicationType.Empty;
 
 // This a very basic example
@@ -95,7 +98,11 @@ function createWindow() {
     }, width: 600, height: 400 });
 
   // and load the index.html of the app.
-  mainWindow.loadFile("index.html");
+  mainWindow.loadURL(url.format({
+    pathname: path.join(__dirname, 'index.html'),
+    protocol: 'file:',
+    slashes: true
+  }))
 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()
@@ -118,11 +125,11 @@ function createWindow() {
     });
   });
 
-  ipcMain.on("requestLedgerXpubkey", (event, arg) => {
-    getXpubkeyInfo(arg).then(result => {
+  ipcMain.on("requestLedgerXpubkey", (event, path, asset) => {
+    getXpubkeyInfo(path).then(result => {
       console.log('ledgerXpubkey');
       console.log(result);
-      mainWindow.webContents.send("ledgerXpubkey", result);
+      mainWindow.webContents.send("ledgerXpubkey", result, asset);
     });
   });
 

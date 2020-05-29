@@ -9,13 +9,13 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        height: 100vh;
+        height: 120vh;
         font-family: sans-serif;
       }
-      #bip32path {
+      .bip32path {
         width: 200px;
       }
-      #xpubkey {
+      .xpubkey {
         width: 500px;
       }
       #authPubkey,#authkeyResult,#connectResponse {
@@ -41,6 +41,11 @@
         margin-bottom: 0px;
         padding-bottom: 0px;
       }
+      .xpubkey-label {
+        font-size: 12px;
+        display: inline-block;
+        width: 8em;
+      }
     </style>
   </head>
   <body>
@@ -51,18 +56,29 @@
         <input type="text" id="connectResponse" value="disconnect" readonly />
       </div>
     </div>
-    <hr>
+    <hr/>
     <div class="xpub">
       <h3 class="xpub-title">xpubkey</h3>
       <div class="xpub-input">
-        <input type="text" id="bip32path" value="" />
-        <input type="button" id="requestXpubkey" value="generate" />
-      </div>
-      <div class="xpub-output">
-        <textarea rows="2" id="xpubkey" readonly></textarea>
+        <div>
+          <div class="xpubkey-label">LBTC xpub key</div>
+          <input type="text" class="bip32path" id="lbtcBip32path" value="m/44h/1776h/0h" />
+          <input type="button" id="requestLbtcXpubkey" value="generate" />
+        </div>
+        <div class="xpub-output">
+          <textarea rows="2" id="lbtcXpubkey" class="xpubkey" readonly></textarea>
+        </div>
+        <div>
+          <div class="xpubkey-label">JPYS xpub key</div>
+          <input type="text" class="bip32path" id="jpysBip32path" value="m/44h/1784h/0h" />
+          <input type="button" id="requestJpysXpubkey" value="generate" />
+        </div>
+        <div class="xpub-output">
+          <textarea rows="2" id="jpysXpubkey" class="xpubkey" readonly></textarea>
+        </div>
       </div>
     </div>
-    <hr>
+    <hr/>
     <div class="authkey">
       <h3 class="authkey-title">set authorization pubkey</h3>
       <div class="authkey-input">

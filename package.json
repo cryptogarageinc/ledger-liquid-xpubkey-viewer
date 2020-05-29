@@ -5,14 +5,18 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "postinstall": "electron-rebuild"
+    "postinstall": "electron-builder install-app-deps",
+    "electron_build": "node ./dev_script/build.js",
+    "release": "node ./dev_script/build.js",
+    "appVersion": "node ./dev_script/appVersion.js"
   },
   "repository": "https://github.com/cryptogarageinc/ledger-liquid-xpubkey-viewer",
   "author": "GitHub",
   "license": "CC0-1.0",
   "devDependencies": {
     "electron": "^7.1.14",
-    "electron-rebuild": "^1.10.1"
+    "electron-builder": "^22.6.1",
+    "electron-notarize": "^0.3.0"
   },
   "dependencies": {
     "ledger-liquid-lib-simple": "git+https://github.com/cryptogarageinc/ledger-liquid-lib-simple.git#v0.0.3"
