@@ -1,6 +1,7 @@
 const { ipcRenderer } = require('electron');
 
 const testingAuthPubkey = '04b85b0e5f5b41f1a95bbf9a83edd95c741223c6d9dc5fe607de18f015684ff56ec359705fcf9bbeb1620fb458e15e3d99f23c6f5df5e91e016686371a65b16f0c';
+const productAuthPubkey = '04fb353afec6e71290869e7146eb18be90c25a1d90d85ab6dc9870d29d41da2dfacc553e008621c3e78f6dc78fe1b3f5c0c200f67c8dc2f3536f1ea63de485dd88';
 const appNameTitle = 'ConnectApp';
 
 function changeDisable(disabled, connectDisabled = undefined) {
@@ -32,6 +33,7 @@ function changeDisable(disabled, connectDisabled = undefined) {
 
 function checkDisconnect(arg) {
   if (('disconnect' in arg) && (arg.disconnect ===  true)) {
+    document.getElementById('authPubkey').value = testingAuthPubkey;
     changeDisable(true, false);
     document.getElementById('app-name').innerHTML = `${appNameTitle}: -`;
     document.getElementById('connectResponse').value = arg.errorMessage;
@@ -98,6 +100,11 @@ ipcRenderer.on("ledgerInfo", (event, arg) => {
     const ver = `v${arg.version.major}.${arg.version.minor}.${arg.version.patch}`
     document.getElementById('app-name').innerHTML = `${appNameTitle}: ${arg.name} (${ver})`;
     document.getElementById('connectResponse').value = 'connect';
+    if (arg.name === 'Liquid Hless') {
+      document.getElementById('authPubkey').value = productAuthPubkey;
+    } else {
+      document.getElementById('authPubkey').value = testingAuthPubkey;
+    }
     changeDisable(false, true);
   } else {
     changeDisable(true, false);
