@@ -1,6 +1,5 @@
 const childProcess = require("child_process")
-const envSuffix = process.env.TARGET_ENV || ""
-const regexp = new RegExp("^[0-9.]*-" + envSuffix + "$")
+const regexp = new RegExp("^[0-9.]*$")
 
 const latestTagVersion = childProcess.execSync("git tag -l --sort -version:refname").toString().split(/\r\n|\r|\n/).find(s => {
   return s.match(regexp)
