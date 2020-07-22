@@ -33,6 +33,7 @@ mac:
 
 win:
   target:
+    - zip
     - nsis
   publish:
     provider: "github"
