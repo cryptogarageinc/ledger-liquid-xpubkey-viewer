@@ -1,5 +1,3 @@
-const { ipcRenderer } = require('electron');
-
 const testingAuthPubkey = '04b85b0e5f5b41f1a95bbf9a83edd95c741223c6d9dc5fe607de18f015684ff56ec359705fcf9bbeb1620fb458e15e3d99f23c6f5df5e91e016686371a65b16f0c';
 const productAuthPubkey = '04fb353afec6e71290869e7146eb18be90c25a1d90d85ab6dc9870d29d41da2dfacc553e008621c3e78f6dc78fe1b3f5c0c200f67c8dc2f3536f1ea63de485dd88';
 const appNameTitle = 'ConnectApp';
@@ -77,7 +75,8 @@ function getXpubkey(asset){
     return;
   }
   changeDisable(true);
-  ipcRenderer.send('requestLedgerXpubkey', bip32path.value, asset);
+  // ipcRenderer.send('requestLedgerXpubkey', bip32path.value, asset);
+  window.xpubkeyViewApi.requestLedgerXpubkey(bip32path.value, asset);
 }
 
 function setAuthKey(){
@@ -92,10 +91,11 @@ function setAuthKey(){
     return;
   }
   changeDisable(true);
-  ipcRenderer.send('setupAuthorizationKey', authPubkey.value);
+  // ipcRenderer.send('setupAuthorizationKey', authPubkey.value);
+  window.xpubkeyViewApi.setupAuthorizationKey(authPubkey.value);
 }
 
-ipcRenderer.on("ledgerInfo", (event, arg) => {
+window.xpubkeyViewApi.on("ledgerInfo", (event, arg) => {
   if (arg.success) {
     const ver = `v${arg.version.major}.${arg.version.minor}.${arg.version.patch}`
     document.getElementById('app-name').innerHTML = `${appNameTitle}: ${arg.name} (${ver})`;
@@ -114,7 +114,7 @@ ipcRenderer.on("ledgerInfo", (event, arg) => {
   }
 });
 
-ipcRenderer.on("ledgerXpubkey", (event, arg, asset) => {
+window.xpubkeyViewApi.on("ledgerXpubkey", (event, arg, asset) => {
   const xpubkeyField = document.getElementById(asset + "Xpubkey");
   if (arg.success) {
     xpubkeyField.value = arg.xpubKey;
@@ -125,7 +125,7 @@ ipcRenderer.on("ledgerXpubkey", (event, arg, asset) => {
   }
 });
 
-ipcRenderer.on("setupAuthorizationKeyResponse", (event, arg) => {
+window.xpubkeyViewApi.on("setupAuthorizationKeyResponse", (event, arg) => {
   const authkeyField = document.getElementById("authkeyResult");
   if (arg.success) {
     authkeyField.value = 'success';
@@ -142,7 +142,8 @@ ipcRenderer.on("setupAuthorizationKeyResponse", (event, arg) => {
 document.getElementById('connect').addEventListener('click', () => {
   changeDisable(true);
   document.getElementById('connectResponse').value = 'check connection...';
-  ipcRenderer.send('requestLedgerInfo');
+  // ipcRenderer.send('requestLedgerInfo');
+  window.xpubkeyViewApi.requestLedgerInfo();
 });
 
 document.getElementById('requestLbtcXpubkey').addEventListener('click', () => {
@@ -156,9 +157,13 @@ document.getElementById('requestAuthkey').addEventListener('click', () => {
   setAuthKey();
 });
 
-// first execute
-document.getElementById('authPubkey').value = testingAuthPubkey;
-document.getElementById('connect').disabled = true;
-changeDisable(true);
-document.getElementById('connectResponse').value = 'check connection...';
-ipcRenderer.send('requestLedgerInfo');
+try {
+  // first execute
+  document.getElementById('authPubkey').value = testingAuthPubkey;
+  document.getElementById('connect').disabled = true;
+  changeDisable(true);
+  document.getElementById('connectResponse').value = 'check connection...';
+  window.xpubkeyViewApi.requestLedgerInfo();
+} catch (e) {
+  console.log(e);
+}
