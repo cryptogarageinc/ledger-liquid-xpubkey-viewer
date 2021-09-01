@@ -10,6 +10,9 @@ contextBridge.exposeInMainWorld(
     setupAuthorizationKey: (value) => {
       ipcRenderer.send('setupAuthorizationKey', value);
     },
+    checkTestAuthorizationKey: () => {
+      ipcRenderer.send('checkTestAuthorizationKey');
+    },
     requestLedgerInfo: () => {
       ipcRenderer.send('requestLedgerInfo');
     },

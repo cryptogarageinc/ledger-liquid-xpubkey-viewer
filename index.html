@@ -18,7 +18,7 @@
       .xpubkey {
         width: 500px;
       }
-      #authPubkey,#authkeyResult,#connectResponse {
+      #authPubkey,#authkeyResult,#connectResponse,#checkTestAuthkeyResult {
         width: 420px;
       }
       #authkey-input {
@@ -87,6 +87,15 @@
       </div>
       <div class="authkey-output">
         <input type="text" id="authkeyResult" value="" readonly />
+      </div>
+    </div>
+
+    <hr/>
+    <div class="checkAuthkey">
+      <h3 class="authkey-title">check testing authorization pubkey</h3>
+      <div class="authkey-input">
+        <input type="text" id="checkTestAuthkeyResult" value="" readonly />
+        <input type="button" id="requestCheckTestAuthkey" value="request" />
       </div>
     </div>
 
