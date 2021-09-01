@@ -31,7 +31,6 @@ function changeDisable(disabled, connectDisabled = undefined) {
 
 function checkDisconnect(arg) {
   if (('disconnect' in arg) && (arg.disconnect ===  true)) {
-    document.getElementById('authPubkey').value = testingAuthPubkey;
     changeDisable(true, false);
     document.getElementById('app-name').innerHTML = `${appNameTitle}: -`;
     document.getElementById('connectResponse').value = arg.errorMessage;
