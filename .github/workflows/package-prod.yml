@@ -123,6 +123,6 @@ jobs:
             ${{ runner.os }}--${{ env.cache-name }}-
       - name: Install node modules
         run: yarn
-      - name: Build app
+      - name: Package app
         shell: bash
         run: yarn release --win --x64
