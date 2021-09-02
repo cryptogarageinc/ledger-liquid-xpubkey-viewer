@@ -10,6 +10,7 @@ files:
   - filter:
       - ./main.js
       - ./renderer.js
+      - ./preload.js
       - ./index.html
 
 extraMetadata:
@@ -33,6 +34,7 @@ mac:
 
 win:
   target:
+    - zip
     - nsis
   publish:
     provider: "github"
