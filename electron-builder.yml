@@ -30,7 +30,7 @@ mac:
   entitlementsInherit: "dev_script/package/notarize/entitlements.mac.plist"
   publish:
     provider: "github"
-    private: true
+    releaseType: "release"
 
 win:
   target:
@@ -38,7 +38,7 @@ win:
     - nsis
   publish:
     provider: "github"
-    private: true
+    releaseType: "release"
 
 nsis:
   createDesktopShortcut: true
