@@ -94,7 +94,7 @@ jobs:
       - name: Install node modules
         run: yarn
       - name: Package app
-        run: yarn release ${{ steps.get_version.outputs.VERSION }}
+        run: yarn release --mac --x64
 
   build-on-win:
     # 環境情報： https://github.com/actions/virtual-environments/blob/master/images/win/Windows2019-Readme.md
@@ -125,4 +125,4 @@ jobs:
         run: yarn
       - name: Build app
         shell: bash
-        run: yarn release ${{ steps.get_version.outputs.VERSION }}
+        run: yarn release --win --x64
