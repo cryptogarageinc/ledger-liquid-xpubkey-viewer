@@ -1,6 +1,6 @@
 {
   "name": "ledger-liquid-xpubkey-viewer",
-  "version": "1.1.5",
+  "version": "1.2.0",
   "description": "Electron xpubkey viewer application",
   "main": "main.js",
   "scripts": {
