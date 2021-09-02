@@ -76,7 +76,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: Get the version
         id: get_version
-        run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
+        run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\/v/}
       - name: Use Node.js ${{ env.NODE_VERSION }}
         uses: actions/setup-node@v2
         timeout-minutes: 1
@@ -106,7 +106,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: Get the version
         id: get_version
-        run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
+        run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\/v/}
       - name: Use Node.js ${{ env.NODE_VERSION }}
         uses: actions/setup-node@v2
         timeout-minutes: 1
