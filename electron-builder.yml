@@ -1,6 +1,6 @@
 appId: io.settlenet.xpubviewer
 productName: XpubViewer
-copyright: "Copyright © 2020 Crypto Garage, Inc. All Rights Reserved."
+copyright: "Copyright © 2021 Crypto Garage, Inc. All Rights Reserved."
 
 directories:
   output: dist
@@ -28,22 +28,20 @@ mac:
   gatekeeperAssess: false
   entitlements: "dev_script/package/notarize/entitlements.mac.plist"
   entitlementsInherit: "dev_script/package/notarize/entitlements.mac.plist"
-  publish:
-    provider: "github"
-    releaseType: "release"
-    vPrefixedTagName: true
 
 win:
   target:
     - zip
     - nsis
-  publish:
-    provider: "github"
-    releaseType: "release"
-    vPrefixedTagName: true
 
 nsis:
   createDesktopShortcut: true
   createStartMenuShortcut: true
+
+publish:
+  provider: "github"
+  releaseType: "release"
+  vPrefixedTagName: true
+  owner: "cryptogarageinc"
 
 extends: null
