@@ -13,6 +13,8 @@ function changeDisable(disabled, connectDisabled = undefined) {
     'authPubkey',
     'requestAuthkey',
     'authkeyResult',
+    'requestCheckTestAuthkey',
+    'checkTestAuthkeyResult',
     'connect',
   ];
   for (const name of fieldNames) {
@@ -94,6 +96,13 @@ function setAuthKey(){
   window.xpubkeyViewApi.setupAuthorizationKey(authPubkey.value);
 }
 
+function checkTestAuthkey(){
+  const authkeyField = document.getElementById("checkTestAuthkeyResult");
+  authkeyField.value = 'during check...';
+  changeDisable(true);
+  window.xpubkeyViewApi.checkTestAuthorizationKey();
+}
+
 window.xpubkeyViewApi.on("ledgerInfo", (event, arg) => {
   if (arg.success) {
     const ver = `v${arg.version.major}.${arg.version.minor}.${arg.version.patch}`
@@ -138,6 +147,18 @@ window.xpubkeyViewApi.on("setupAuthorizationKeyResponse", (event, arg) => {
   }
 });
 
+
+window.xpubkeyViewApi.on("checkTestAuthorizationKeyResponse", (event, arg) => {
+  const authkeyField = document.getElementById("checkTestAuthkeyResult");
+  if (arg.success) {
+    authkeyField.value = 'authorization pubkey is testing key';
+    changeDisable(false, true);
+  } else {
+    authkeyField.value = 'other key (not testing key), or other error';
+    checkDisconnect(arg);
+  }
+});
+
 document.getElementById('connect').addEventListener('click', () => {
   changeDisable(true);
   document.getElementById('connectResponse').value = 'check connection...';
@@ -154,6 +175,10 @@ document.getElementById('requestJpysXpubkey').addEventListener('click', () => {
 
 document.getElementById('requestAuthkey').addEventListener('click', () => {
   setAuthKey();
+});
+
+document.getElementById('requestCheckTestAuthkey').addEventListener('click', () => {
+  checkTestAuthkey();
 });
 
 try {
