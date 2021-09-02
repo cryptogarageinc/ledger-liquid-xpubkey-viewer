@@ -1,5 +1,5 @@
 // Modules to control application life and create native browser window
-const LedgerLib = require("ledger-liquid-lib");
+const LedgerLib = require("ledger-liquid-lib-simple");
 
 const { app, BrowserWindow, ipcMain } = require("electron");
 

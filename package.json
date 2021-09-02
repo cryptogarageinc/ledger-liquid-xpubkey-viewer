@@ -19,6 +19,6 @@
     "electron-notarize": "^1.0.0"
   },
   "dependencies": {
-    "ledger-liquid-lib": "git+https://github.com/cryptogarageinc/ledger-liquid-lib.git#v0.1.6"
+    "ledger-liquid-lib-simple": "git+https://github.com/cryptogarageinc/ledger-liquid-lib-simple.git#v0.1.3"
   }
 }
