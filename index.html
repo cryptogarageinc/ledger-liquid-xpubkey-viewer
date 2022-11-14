@@ -1,105 +1,27 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="UTF-8" />
-    <title>Ledger Liquid Library Tool</title>
-    <style>
-      #main {
+    <meta charset="UTF-8">
+    <title>Ledger liquid xpubkey viewer</title>
+    <style>#main {
         display: flex;
         flex-direction: column;
-        align-items: center;
+        align-items: left;
         justify-content: center;
-        height: 120vh;
+        height: 100vh;
         font-family: sans-serif;
-      }
-      .bip32path {
-        width: 200px;
-      }
-      .xpubkey {
-        width: 500px;
-      }
-      #authPubkey,#authkeyResult,#connectResponse,#checkTestAuthkeyResult {
-        width: 420px;
-      }
-      #authkey-input {
-        vertical-align: middle;
-        margin: auto;
-      }
-      #requestAuthkey {
-        vertical-align: top;
-        margin-top: 13px;
       }
       h1 {
         font-size: 32px;
       }
       h2 {
         font-size: 20px;
-        font-weight: bold;
-      }
-      h3 {
-        font-size: 16px;
-        margin-bottom: 0px;
-        padding-bottom: 0px;
-      }
-      .xpubkey-label {
-        font-size: 12px;
-        display: inline-block;
-        width: 8em;
-      }
-    </style>
+        font-weight: normal;
+      }</style>
   </head>
   <body>
-    <div class="connect">
-      <h2 id="app-name">ConnectApp: -</h2>
-      <div class="connect-status">
-        <input type="button" id="connect" value="connect" />
-        <input type="text" id="connectResponse" value="disconnect" readonly />
-      </div>
+    <div id="main">
+    <p><a href="./dist/">xpubkey-viewer</a></p>
     </div>
-    <hr/>
-    <div class="xpub">
-      <h3 class="xpub-title">xpubkey</h3>
-      <div class="xpub-input">
-        <div>
-          <div class="xpubkey-label">LBTC xpub key</div>
-          <input type="text" class="bip32path" id="lbtcBip32path" value="m/44h/1776h/0h" />
-          <input type="button" id="requestLbtcXpubkey" value="generate" />
-        </div>
-        <div class="xpub-output">
-          <textarea rows="2" id="lbtcXpubkey" class="xpubkey" readonly></textarea>
-        </div>
-        <div>
-          <div class="xpubkey-label">JPYS xpub key</div>
-          <input type="text" class="bip32path" id="jpysBip32path" value="m/44h/1784h/0h" />
-          <input type="button" id="requestJpysXpubkey" value="generate" />
-        </div>
-        <div class="xpub-output">
-          <textarea rows="2" id="jpysXpubkey" class="xpubkey" readonly></textarea>
-        </div>
-      </div>
-    </div>
-    <hr/>
-    <div class="authkey">
-      <h3 class="authkey-title">set authorization pubkey</h3>
-      <div class="authkey-input">
-        <textarea rows="3" id="authPubkey"></textarea>
-        <input type="button" id="requestAuthkey" value="request" />
-      </div>
-      <div class="authkey-output">
-        <input type="text" id="authkeyResult" value="" readonly />
-      </div>
-    </div>
-
-    <hr/>
-    <div class="checkAuthkey">
-      <h3 class="authkey-title">check testing authorization pubkey</h3>
-      <div class="authkey-input">
-        <input type="text" id="checkTestAuthkeyResult" value="" readonly />
-        <input type="button" id="requestCheckTestAuthkey" value="request" />
-      </div>
-    </div>
-
-    <script type="text/javascript" src="renderer.js">
-    </script>
   </body>
 </html>
