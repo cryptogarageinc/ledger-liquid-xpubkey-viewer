@@ -1,16 +1,12 @@
 # ledger-liquid-xpubkey-viewer
 
-## Run
+## build
 
-```bash
-yarn
-yarn start
-```
+  1. npm install
 
-## Operation
+  2. npm run build
 
-  1. ledger connect. (Open ledger liquid Test Hless application.)
-  2. click connect button. (or open application)
-  3. set authorization key. (default: test pubkey.)
-  4. input bip32 path.
-  5. click generate button on xpubkey.
+# github pages
+
+  - [xpubkey viewer](https://cryptogarageinc.github.io/ledger-liquid-xpubkey-viewer/dist/)
+
